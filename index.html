@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+<title>Bobo寄养指南</title>
+
+<!-- PWA / iOS Add to Home Screen -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Bobo指南">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#f5a623">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png">
+
+<style>
+:root {
+  --bg: #fdfaf4;
+  --card-bg: #ffffff;
+  --accent: #f5a623;
+  --accent-light: #fff8eb;
+  --text: #2c2c2c;
+  --text-light: #6b6b6b;
+  --red: #ff4d4d;
+  --red-bg: #fff3f3;
+  --blue: #3a7bfd;
+  --blue-bg: #f0f5ff;
+  --green: #34c759;
+  --green-bg: #f0faf3;
+  --radius: 16px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0;
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  line-height: 1.65;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 16px;
+  padding-bottom: 40px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 24px 0 8px;
+}
+
+.header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin: 0 0 4px;
+  letter-spacing: -0.5px;
+}
+
+.header p {
+  color: var(--text-light);
+  font-size: 14px;
+  margin: 0;
+}
+
+/* Navigation pills */
+.nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 0 16px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar { display: none; }
+
+.nav a {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  background: var(--card-bg);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  text-decoration: none;
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.04);
+  transition: background 0.2s;
+}
+
+.nav a:active {
+  background: var(--accent-light);
+}
+
+/* Cards */
+.card {
+  background: var(--card-bg);
+  padding: 18px 20px;
+  margin-bottom: 16px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+.card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card h2 .icon {
+  font-size: 22px;
+}
+
+.card h3 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 14px 0 6px;
+  color: var(--text);
+}
+
+.card h3:first-of-type {
+  margin-top: 0;
+}
+
+.card ul {
+  margin: 6px 0;
+  padding-left: 20px;
+}
+
+.card ul li {
+  margin-bottom: 4px;
+}
+
+.card ul ul {
+  margin-top: 4px;
+}
+
+.card p {
+  margin: 6px 0;
+}
+
+.sub {
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.tag {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.tag-time {
+  background: var(--accent-light);
+  color: #b47a00;
+}
+
+.tag-cmd {
+  background: #eef;
+  color: #4a4ae0;
+  font-family: "SF Mono", Menlo, monospace;
+  font-size: 13px;
+  padding: 1px 7px;
+  border-radius: 5px;
+}
+
+/* Special card styles */
+.card-alert {
+  background: var(--red-bg);
+  border-left: 4px solid var(--red);
+}
+
+.card-note {
+  background: var(--blue-bg);
+  border-left: 4px solid var(--blue);
+}
+
+.card-tip {
+  background: var(--green-bg);
+  border-left: 4px solid var(--green);
+}
+
+/* Dividers */
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 24px 0 12px;
+  color: var(--text-light);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: rgba(0,0,0,0.08);
+}
+
+/* Steps */
+.steps {
+  counter-reset: step;
+  list-style: none;
+  padding: 0;
+  margin: 8px 0;
+}
+
+.steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 8px;
+}
+
+.steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 1px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Warning callout */
+.callout {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin: 10px 0;
+}
+
+.callout-warn {
+  background: #fff8e6;
+  border: 1px solid #ffd666;
+}
+
+.callout-info {
+  background: #f0f5ff;
+  border: 1px solid #adc6ff;
+}
+
+.callout-icon {
+  flex-shrink: 0;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 13px;
+  margin-top: 32px;
+  padding-bottom: 20px;
+}
+
+/* Collapsible */
+details {
+  margin: 10px 0;
+}
+
+details summary {
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  padding: 6px 0;
+  color: var(--blue);
+  list-style: none;
+}
+
+details summary::-webkit-details-marker { display: none; }
+
+details summary::before {
+  content: '+ ';
+  font-weight: 700;
+}
+
+details[open] summary::before {
+  content: '- ';
+}
+
+/* PWA install banner */
+.pwa-banner {
+  background: linear-gradient(135deg, var(--accent), #e8941f);
+  color: white;
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  font-size: 13px;
+  line-height: 1.5;
+  box-shadow: var(--shadow);
+}
+
+.pwa-banner strong {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+
+.pwa-banner .dismiss {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 12px;
+  opacity: 0.85;
+  cursor: pointer;
+  text-decoration: underline;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <div class="header">
+    <h1>Bobo 寄养笔记</h1>
+    <p>照顾 Bobo 的完整指南</p>
+  </div>
+
+  <!-- PWA install hint (only in browser) -->
+  <div class="pwa-banner" id="pwaBanner" style="display:none;">
+    <strong>添加到主屏幕</strong>
+    点击 Safari 底部的 <strong style="display:inline;">分享按钮</strong>，然后选择「添加到主屏幕」即可像 App 一样使用本指南。
+    <span class="dismiss" onclick="document.getElementById('pwaBanner').style.display='none';localStorage.setItem('pwa-dismissed','1');">知道了</span>
+  </div>
+
+  <!-- Quick Nav -->
+  <nav class="nav">
+    <a href="#food">🍽 饮食</a>
+    <a href="#walk">🚶 遛狗</a>
+    <a href="#play">🎾 玩耍</a>
+    <a href="#sleep">🛏 睡觉</a>
+    <a href="#commands">🎓 口令</a>
+    <a href="#emergency">🚑 应急</a>
+    <a href="#notes">📌 提醒</a>
+    <a href="#contact">📱 联系</a>
+  </nav>
+
+  <!-- ==================== 1. 吃饭喝水 ==================== -->
+  <div class="card" id="food">
+    <h2><span class="icon">🍽</span> 吃饭喝水安排</h2>
+
+    <h3>早饭 <span class="tag tag-time">8:00 – 10:00</span></h3>
+    <p>喂<strong>一袋鲜食</strong></p>
+
+    <h3>晚饭 <span class="tag tag-time">17:00 – 19:00</span></h3>
+    <p>喂<strong>一袋自制狗粮</strong></p>
+    <p>晚饭中需添加：</p>
+    <ul>
+      <li>一颗揉碎的 <strong>8in1 营养粒</strong>（超级营养装）+ 一颗揉碎的<strong>鱼油胶粒</strong>（亮毛）</li>
+      <li>两粒 🦈 <strong>软骨素</strong>（掰成两半）</li>
+    </ul>
+
+    <h3>喝水</h3>
+    <p>上下午各一次，晚饭之后 Bobo 会自己喝</p>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <div>
+        <strong>注意事项：</strong>
+        <ul style="margin:4px 0;padding-left:18px;">
+          <li>如果上述食物不吃，可以换 <strong>Ziwi 干粮</strong>（3 勺满蛋白粉勺就可以了）</li>
+          <li>如果 Bobo <strong>拉稀</strong>，改为喂白米饭 + 鸡肉，暂停其他食物，观察恢复情况</li>
+          <li>吃完晚饭后可以尝试性<strong>刷一次牙</strong>，如何操作请看 VCR</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== 2. 遛狗和清洁 ==================== -->
+  <div class="card" id="walk">
+    <h2><span class="icon">🚶</span> 遛狗和清洁</h2>
+
+    <h3>排尿 <span class="tag tag-cmd">口令 "尿尿"</span></h3>
+    <p>每天至少 <strong>3 次</strong>：</p>
+    <ul>
+      <li>第一次：<span class="tag tag-time">6:00 – 10:00</span></li>
+      <li>第二次：<span class="tag tag-time">14:00 – 16:00</span></li>
+      <li>第三次：<span class="tag tag-time">21:00 以后</span></li>
+    </ul>
+
+    <div class="callout callout-warn">
+      <span class="callout-icon">⚠️</span>
+      <div>
+        Bobo 出门玩耍时尿尿次数会变多<br>
+        喜欢在<strong>石子路</strong>或<strong>草地</strong>尿尿
+      </div>
+    </div>
+
+    <h3>💩 <span class="tag tag-cmd">口令 "poopoo"</span></h3>
+    <ul>
+      <li>通常 1–2 次，多集中在早上</li>
+      <li>Poopoo 地点可能是室外很多地方，甚至十字路口！</li>
+    </ul>
+
+    <h3>擦脚注意事项</h3>
+    <div class="callout callout-info">
+      <span class="callout-icon">💡</span>
+      <div>
+        抬前脚时<strong>向身体后方抬起</strong>，后脚<strong>向上抬</strong>，避免外折伤到腿骨
+      </div>
+    </div>
+    <p>擦拭顺序：</p>
+    <ol class="steps">
+      <li>四肢</li>
+      <li>耳朵 + 嘴筒</li>
+      <li>屁屁和小妹妹（muimui）</li>
+    </ol>
+  </div>
+
+  <!-- ==================== 3. 玩耍互动 ==================== -->
+  <div class="card" id="play">
+    <h2><span class="icon">🎾</span> 玩耍互动</h2>
+
+    <ul>
+      <li>Bobo 喜欢<strong>扔球</strong>和<strong>扔玩具</strong></li>
+      <li>外出扔球时：
+        <ul>
+          <li><span class="sub">（Bobo：虽然我喷了驱虫药会打滚，但是我更怕被咬）</span></li>
+          <li>如果 Bobo 把球放得太远，请用指令 <span class="tag tag-cmd">"Ball here"</span>，坚持到把球叼回</li>
+          <li><strong>不要过度宠溺</strong>，耐心坚持引导，防止 Bobo 玩得过激顽劣</li>
+        </ul>
+      </li>
+      <li>Bobo 喜欢<strong>后腿站立</strong>，因为人类都好高，需要站起来才能更近的贴贴，这个时候需要 <span class="tag tag-cmd">Grounding</span></li>
+    </ul>
+  </div>
+
+  <!-- ==================== 4. 睡觉安排 ==================== -->
+  <div class="card" id="sleep">
+    <h2><span class="icon">🛏</span> 睡觉安排</h2>
+    <ul>
+      <li>Bobo 需与人类<strong>同床共睡</strong>，否则容易焦虑（但是，她打呼 💤）</li>
+      <li>起初可能夜间警觉，通常 <strong>1–2 天内</strong>适应</li>
+    </ul>
+  </div>
+
+  <!-- ==================== 5. 训练口令 ==================== -->
+  <div class="card" id="commands">
+    <h2><span class="icon">🎓</span> 训练口令</h2>
+
+    <h3>英文口令</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:14px;">
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Sit</span></td><td style="padding:6px 0;">坐下</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Paw</span></td><td style="padding:6px 0;">握手</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Touch</span></td><td style="padding:6px 0;">碰手</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Stay</span></td><td style="padding:6px 0;">停留</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Go</span></td><td style="padding:6px 0;">出发</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Up</span></td><td style="padding:6px 0;">跳上</td></tr>
+      <tr style="border-bottom:1px solid #eee;"><td style="padding:6px 0;"><span class="tag tag-cmd">Grounding</span></td><td style="padding:6px 0;">冷静四脚着地</td></tr>
+      <tr><td style="padding:6px 0;"><span class="tag tag-cmd">Perch</span></td><td style="padding:6px 0;">前肢搭住</td></tr>
+    </table>
+
+    <h3>中文口令</h3>
+    <p><span class="tag tag-cmd">趴下</span></p>
+  </div>
+
+  <!-- ==================== 应急处理 ==================== -->
+  <div class="divider">🚑 应急处理小贴士</div>
+
+  <div class="card card-alert" id="emergency">
+    <h2><span class="icon">🚑</span> 应急处理</h2>
+
+    <h3>1. 拉稀应对</h3>
+    <ul>
+      <li>停止普通食物，只喂<strong>白米饭 + 鸡肉</strong></li>
+      <li>保持<strong>充足饮水</strong></li>
+      <li>如持续超过 2 天或伴有精神差，请联系主人或 <strong>附近宠物医院</strong></li>
+    </ul>
+
+    <h3>2. 呕吐应对</h3>
+    <ul>
+      <li>轻微呕吐（一天 1–2 次）可以先观察，<strong>停食 6 小时</strong>后提供少量米饭</li>
+      <li>持续频繁呕吐或伴有精神萎靡、发热、拉稀，需要<strong>立即联系主人或就医</strong></li>
+    </ul>
+
+    <h3>3. 精神异常</h3>
+    <p>若出现以下情况，<strong>请立刻联系主人</strong>：</p>
+    <ul>
+      <li>极度安静不动</li>
+      <li>呼吸急促或困难</li>
+      <li>持续哀鸣、趴地不起</li>
+    </ul>
+  </div>
+
+  <!-- ==================== Note / 重要提醒 ==================== -->
+  <div class="card card-note" id="notes">
+    <h2><span class="icon">📌</span> 重要提醒</h2>
+    <ul>
+      <li>人流多的地方<strong>系好牵引绳</strong></li>
+      <li>不要随便喂食陌生物品</li>
+      <li>避免打滚</li>
+      <li>Bobo 有 <strong>Service Dog 证明</strong></li>
+    </ul>
+
+    <details>
+      <summary>Bobo 究极抱起姿势</summary>
+      <ol class="steps" style="margin-top:10px;">
+        <li>一只胳膊伸到<strong>前腿的两腿之间</strong></li>
+        <li>另外一只胳膊<strong>托起屁屁</strong>，或者也从两腿之间穿过</li>
+      </ol>
+    </details>
+  </div>
+
+  <!-- ==================== 联系方式 ==================== -->
+  <div class="card card-tip" id="contact">
+    <h2><span class="icon">📱</span> 联系方式</h2>
+    <p><strong>常用宠物医院：</strong></p>
+    <p>🏥 <br><span class="sub"></span></p>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    谢谢照顾 Bobo 🐶
+  </div>
+
+</div>
+
+<script>
+// Show PWA install banner if not in standalone mode and not dismissed
+if (!window.navigator.standalone && !window.matchMedia('(display-mode: standalone)').matches) {
+  if (!localStorage.getItem('pwa-dismissed')) {
+    document.getElementById('pwaBanner').style.display = 'block';
+  }
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('.nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+</script>
+</body>
+</html>
